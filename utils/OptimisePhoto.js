@@ -7,7 +7,6 @@ const path = require('path');
 module.exports = async function (file, widths, outputDir) {
   let newName = await getDateFromPhoto(file);
   newName = await formatDate(newName) + path.extname(file);
-
   widths.map(width => {
     fs.exists(`${outputDir}/w${width}/${newName}`, async function (exists) {
       if (!exists) {
@@ -16,6 +15,7 @@ module.exports = async function (file, widths, outputDir) {
         image.quality(80); // set JPEG quality
         image.writeAsync(`${outputDir}/w${width}/${newName}`);
         console.log(`Generated: ${outputDir}/w${width}/${newName}`);
+        console.log(`${file} is now ${newName}`)
       }
     });
   });
