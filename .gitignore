@@ -103,6 +103,9 @@ build
 # TernJS port file
 .tern-port
 
+#Photos
+src/_photos
+
 build
 
 .DS_Store
