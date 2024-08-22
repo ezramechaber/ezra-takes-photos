@@ -4,7 +4,8 @@
   "description": "A simple blog, set up with Eleventy.",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "NODE_ENV=production node node-exif-photos && eleventy"
+    "build": "NODE_ENV=production node node-exif-photos && eleventy",
+    "build-ghpages": "NODE_ENV=production node node-exif-photos && eleventy --pathprefix=/"
   },
   "dependencies": {
     "eleventy-plugin-seo": "^0.5.1",
