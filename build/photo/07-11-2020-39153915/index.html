@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Photos</title>
+  
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+</head>
+
+<body>
+    <div id="layout" class="pure-g">
+        
+
+
+<header class="pure-u-1">
+    <h1 class="brand-title"><a href="/">Ezra Takes Photos</a></h1>
+    <h2 class="brand-tagline">Sometimes, photos.</h2>
+    <div class="subhead">
+        
+        
+    </div>
+</header>
+
+<main class="pure-u-1">
+    <section class="pure-g photo-entries">
+    <article class="photo-entry pure-u-1 pure-u-lg-7-8">
+    <div class="text-container"><h4>Taken on <time>Saturday, November 7, 2020</time>.</h4></div>
+    <figure>
+    <img class="pure-img" src="/photos/w960/07_11_2020_113915.jpg" alt="OLYMPUS DIGITAL CAMERA">
+      <figcaption class="text-container">
+        <p>Taken with:
+        <ul class="exif">
+          <li class="camera-make">OLYMPUS CORPORATION</li>
+          <li>E-M10MarkII</li>
+          <li>LUMIX G 25/F1.7 lens</li>
+          <li>400 ISO</li>
+          <li>ƒ/1.8</li>
+        </ul>
+        </p>
+      </figcaption>
+    </figure>
+    </article>
+    </section>
+    <div class="text-container"><a href="/">Back to all photos</a></div>
+</main>
+<nav class="pure-u-1">
+    <div class="pure-menu-horizontal">
+        <ul class="pure-menu-list">
+            
+            
+        </ul>
+    </div>
+</nav>
+
+<footer class="pure-u-1">
+</footer>
+
+
+    </div>
+</body>
+<script>
+  (function () {
+    'use strict';
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+    // Stolen from: https://scotch.io/tutorials/lazy-loading-images-for-performance-using-intersection-observer
+    var images = document.querySelectorAll('img.lazy');
+
+    var options = {
+      // If the image gets within 50px in the Y axis, start the download.
+      root: null, // Page as root
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    var fetchImage = function (url) {
+      return new Promise((resolve, reject) => {
+        var image = new Image();
+        image.src = url;
+        image.onload = resolve;
+        image.onerror = reject;
+      });
+    }
+
+    var loadImage = function (image) {
+      var src = image.dataset.src;
+      fetchImage(src).then(() => {
+        image.src = src;
+      })
+    }
+
+    var handleIntersection = function (entries, observer) {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          loadImage(entry.target)
+        }
+      })
+    }
+
+    // The observer for the images on the page
+    var observer = new IntersectionObserver(handleIntersection, options);
+    images.forEach(function (img) {
+      observer.observe(img);
+    })
+  })();
+</script>
+
+</html>
