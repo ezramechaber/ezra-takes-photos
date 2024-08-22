@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Photos</title>
+  
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css" type="text/css"/>
+</head>
+
+<body>
+    <div id="layout" class="pure-g">
+        
+
+
+<main>
+  <a href="/"><h1>JAMStack Photo site</h1></a>
+  <h2>An example site generated using exif data extracted from photos</h2>
+
+  
+  
+
+  <h3>0 photos tagged: exifPhotos</h3>
+
+  <ul>
+    
+  </ul>
+
+  <footer>
+    <a href="https://www.chriscollins.me">Project by Chris Collins</a>
+  </footer>
+</main>
+
+
+
+    </div>
+</body>
+<script>
+  (function () {
+    'use strict';
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+    // Stolen from: https://scotch.io/tutorials/lazy-loading-images-for-performance-using-intersection-observer
+    var images = document.querySelectorAll('img.lazy');
+
+    var options = {
+      // If the image gets within 50px in the Y axis, start the download.
+      root: null, // Page as root
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    var fetchImage = function (url) {
+      return new Promise((resolve, reject) => {
+        var image = new Image();
+        image.src = url;
+        image.onload = resolve;
+        image.onerror = reject;
+      });
+    }
+
+    var loadImage = function (image) {
+      var src = image.dataset.src;
+      fetchImage(src).then(() => {
+        image.src = src;
+      })
+    }
+
+    var handleIntersection = function (entries, observer) {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          loadImage(entry.target)
+        }
+      })
+    }
+
+    // The observer for the images on the page
+    var observer = new IntersectionObserver(handleIntersection, options);
+    images.forEach(function (img) {
+      observer.observe(img);
+    })
+  })();
+</script>
+
+</html>
