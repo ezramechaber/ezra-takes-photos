@@ -80,7 +80,6 @@ typings/
 
 # Nuxt.js build / generate output
 .nuxt
-build
 
 # Gatsby files
 .cache/
@@ -105,7 +104,5 @@ build
 
 #Photos
 src/_photos
-
-build
 
 .DS_Store
