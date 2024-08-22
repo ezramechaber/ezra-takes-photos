@@ -1,0 +1,3 @@
+---json
+{"image_path":"Invalid DateTime.jpg","image":{"Orientation":1,"XResolution":144,"YResolution":144,"ResolutionUnit":2,"YCbCrPositioning":1,"ExifOffset":102},"exif":{"ExifVersion":{"type":"Buffer","data":[48,50,50,49]},"ComponentsConfiguration":{"type":"Buffer","data":[1,2,3,0]},"UserComment":{"type":"Buffer","data":[65,83,67,73,73,0,0,0,83,99,114,101,101,110,115,104,111,116]},"FlashpixVersion":{"type":"Buffer","data":[48,49,48,48]},"ColorSpace":1,"PixelXDimension":524,"PixelYDimension":372,"SceneCaptureType":0}}
+---
