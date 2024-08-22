@@ -1,0 +1,43 @@
+---
+layout: "layouts/base.njk"
+---
+
+{#
+  Stolen from: https://github.com/duncan/website/blob/master/content/_includes/post.njk
+  Thanks :)
+#}
+{%- set currentItemIndex = 0 %}
+{%- for item in collections.exifPhotos %}
+  {%- if item.url == page.url %}
+    {%- set currentItemIndex = loop.index0 %}
+  {%- endif %}
+{%- endfor %}
+
+{%- set prevItemIndex = currentItemIndex - 1 %}
+{%- set nextItemIndex = currentItemIndex + 1 %}
+
+{% include '_header.njk' %}
+<main class="pure-u-1">
+    <section class="pure-g photo-entries">
+    <article class="photo-entry pure-u-1 pure-u-lg-7-8">
+    <div class="text-container"><h4>Taken on <time>{{ exif.DateTimeOriginal | readableDate }}</time>.</h4></div>
+    <figure>
+    <img class="pure-img" src="/photos/w960/{{ image_path }}" alt="{{ image.ImageDescription }}">
+      <figcaption class="text-container">
+        <p>Taken with:
+        <ul class="exif">
+          <li class="camera-make">{{ image.Make }}</li>
+          <li>{{ image.Model }}</li>
+          <li>{{ exif.LensModel }} lens</li>
+          <li>{{ exif.ISO }} ISO</li>
+          <li>ƒ/{{exif.FNumber }}</li>
+        </ul>
+        </p>
+      </figcaption>
+    </figure>
+    </article>
+    </section>
+    <div class="text-container"><a href="/">Back to all photos</a></div>
+</main>
+{% include '_nav.njk' %}
+{% include '_footer.njk' %}

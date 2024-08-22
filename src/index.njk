@@ -1,0 +1,42 @@
+---
+layout: layouts/base.njk
+title: Ezra Takes Photos
+pagination:
+ data: collections.exifPhotos
+ size: 4
+ alias: photoList
+---
+
+{% include '_header.njk' %}
+<main class="pure-u-1">
+    <!-- A wrapper for all the blog posts -->
+    <div class="text-container"><h4>Ezra has taken <mark>{{ collections.exifPhotos.length }}</mark> photos.</h4></div>
+    <section class="pure-g photo-entries">
+        {% for photo in photoList %}
+            {# Try and detect if the photo is portrait, useful for styling #}
+            {% set isPortrait = false %}
+                {% if photo.data.exif.PixelXDimension and photo.data.exif.PixelYDimension %}
+                {% if photo.data.exif.PixelXDimension < photo.data.exif.PixelYDimension %}
+                    {% set isPortrait = true %}
+                {% endif %}
+                {% endif %}
+                <article class="photo-entry pure-u-1 pure-u-lg-7-8">
+                    <figure>
+                        <a href="{{ photo.url }}">
+                        <noscript>
+                            <img class="pure-img" alt="{{ photo.data.image.ImageDescription }}" src="/photos/w960/{{ photo.data.image_path }}">
+                        </noscript>
+                        <img class="lazy pure-img" src="/photos/blur/{{ photo.data.image_path }}" alt="{{ photo.data.image.ImageDescription }}" data-src="/photos/w960/{{ photo.data.image_path }}">
+                        </a>
+                        <figcaption class="text-container">
+                            Ezra took this photo on <a href="{{ photo.url }}"><time>{{ photo.data.exif.DateTimeOriginal | readableDate }}</time></a>.
+                        </figcaption>
+                    </figure>
+                </article>
+        {% endfor %}
+    </section>
+</main>
+
+{% include '_nav.njk' %}
+{% include '_footer.njk' %}
+

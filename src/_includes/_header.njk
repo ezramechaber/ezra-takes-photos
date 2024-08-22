@@ -1,0 +1,11 @@
+<header class="pure-u-1">
+    <h1 class="brand-title"><a href="{{ '/' | url }}">{{ metadata.title }}</a></h1>
+    <h2 class="brand-tagline">Sometimes, photos.</h2>
+    <div class="subhead">
+        {# This should be a ul :| #}
+        {% for tag in collections.tagList %}
+        {% set tagUrl %}/tags/{{ tag | slug }}/{% endset %}
+        <a href="{{ tagUrl | url }}" class="no-underline hover:underline font-normal text-gray-700">#{{ tag | slug }}</a>,
+        {% endfor %}
+    </div>
+</header>

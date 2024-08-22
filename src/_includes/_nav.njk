@@ -1,0 +1,15 @@
+<nav class="pure-u-1">
+    <div class="pure-menu-horizontal">
+        <ul class="pure-menu-list">
+            {% if pagination.href.previous %}
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{{ pagination.href.previous }}">Previous</a></li>
+            {% endif %}
+            {%- for pageEntry in pagination.pages %}
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{{ pagination.hrefs[ loop.index0 ] }}"{% if page.url == pagination.hrefs[ loop.index0 ] %} aria-current="page"{% endif %}>{{ loop.index }}</a></li>
+            {%- endfor %}
+            {% if pagination.href.next %}
+                <li class="pure-menu-item"><a class="pure-menu-link" href="{{ pagination.href.next }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

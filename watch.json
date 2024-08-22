@@ -1,0 +1,20 @@
+{
+  "install": {
+    "include": [
+      "^package\\.json$",
+      "^\\.env$"
+    ]
+  },
+  "restart": {
+    "exclude": [
+      "^utils/"
+    ],
+    "include": [
+      "watch.json$",
+      ".eleventy.js$",
+      "node-exif-photos.js$",
+      ".glitch-assets"
+    ]
+  },
+  "throttle": 1000
+}
