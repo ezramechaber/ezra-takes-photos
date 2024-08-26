@@ -1,0 +1,1 @@
+{"layout":"layouts/photo.njk","permalink":"photo/{{ date_url }}/index.html"}

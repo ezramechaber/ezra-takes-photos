@@ -16,6 +16,7 @@ module.exports = function (eleventyConfig) {
         }).toFormat('dd/LL/yyyy');
     });
 
+    // Not clear this is working as expected.
     eleventyConfig.addFilter('dateUrl', (dateObj) => {
         return DateTime.fromJSDate(new Date(dateObj), {
             zone: 'utc'

@@ -1,8 +1,6 @@
 const fs = require('fs-extra');
 const glob = require("fast-glob");
-
-// const getDateFromPhoto = require("./utils/GetDateFromPhoto");
-// const formatDate = require("./utils/FormatDate");
+const path = require('path');
 
 const optimisePhoto = require("./utils/OptimisePhoto");
 const frontMatter = require("./utils/FrontMatter");
@@ -19,18 +17,19 @@ const frontMatter = require("./utils/FrontMatter");
     `${OPTIONS.input_photos_dir}/*.{jpg,jpeg,JPG,JPEG}`,
   ]);
 
-  // Copy the contents _exifdata/_exifdata.json file
-  var templateDataFile = fs.readFileSync('src/_exifdata/_exifdata.json', 'utf8');
-
-  // Empty the _exifdata folder - regenerate files based on current photos tree
-  fs.emptyDirSync('src/_exifdata');
-  fs.emptyDirSync('src/_posts');
-
   // Re-write the file to enable a collection
-  fs.writeJson('src/_exifdata/_exifdata.json', JSON.parse(templateDataFile), err => {
-    if (err) return console.error(err)
-    console.log('Wrote _exifdata.json file.')
-  })
+    // Define the content for _posts.json
+    const postsJsonContent = {
+      layout: "layouts/photo.njk",
+      permalink: "photo/{{ date_url }}/index.html"
+    };
+  
+    // Write the _posts.json file
+    const postsJsonPath = path.join(OPTIONS.output_posts_dir, '_posts.json');
+    fs.writeJson(postsJsonPath, postsJsonContent, err => {
+      if (err) return console.error(err)
+      console.log('Wrote _posts.json file.')
+    });
 
   files.forEach(async (file) => {
     // Creates optimised versions for each item in OPTIONS.widths, always creates a 20px wide blur

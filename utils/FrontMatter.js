@@ -54,6 +54,7 @@ async function processPhoto(file) {
     const shutterSpeed = 1/(photoMetadata.exif.ExposureTime);
     const fNumber = photoMetadata.exif.FNumber;
     const lensModel = photoMetadata.exif.LensModel;
+    const imagePath = photoMetadata.image_path;
 
     const dateTime = DateTime.fromJSDate(dateCreated);
     
@@ -65,19 +66,27 @@ async function processPhoto(file) {
     
     // Format the date (assuming YYYYMMDD format)
     let postDate = dateTime.toFormat('yyyy-MM-dd');
-    let postName = dateTime.toFormat('yyyy-MM-dd HHmmss');
+    let postName = dateTime.toFormat('yyyy-MM-dd-HHmmss');
+    let dateURL = dateTime.toFormat('dd-LL-yyyy-mmssms');
+
+    // Get pixel dimensions - maybe leave out later
+    const pixelXDimension = photoMetadata.exif.PixelXDimension;
+    const pixelYDimension = photoMetadata.exif.PixelYDimension;
 
     // Create the markdown content with front matter
     const content = `---
 title: ""
 date: ${postDate}
+date_url: "${dateURL}"
 camera_make: "${cameraMake}"
 camera_model: "${cameraModel}"
 lens_model: "${lensModel}"
 iso: "${ISO}"
 fnumber: "${fNumber}"
 shutter_speed: "${shutterSpeed}"
-image_url: ""
+image_url: "${imagePath}"
+pixel_x_dimension: ${pixelXDimension || ''}
+pixel_y_dimension: ${pixelYDimension || ''}
 ---
 
 This post features an image taken with an ${cameraModel}.`;

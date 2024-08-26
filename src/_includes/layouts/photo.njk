@@ -7,7 +7,7 @@ layout: "layouts/base.njk"
   Thanks :)
 #}
 {%- set currentItemIndex = 0 %}
-{%- for item in collections.exifPhotos %}
+{%- for item in collections.posts %}
   {%- if item.url == page.url %}
     {%- set currentItemIndex = loop.index0 %}
   {%- endif %}
@@ -20,17 +20,17 @@ layout: "layouts/base.njk"
 <main class="pure-u-1">
     <section class="pure-g photo-entries">
     <article class="photo-entry pure-u-1 pure-u-lg-7-8">
-    <div class="text-container"><h4>Taken on <time>{{ exif.DateTimeOriginal | readableDate }}</time>.</h4></div>
+    <div class="text-container"><h4>Taken on <time>{{ date | readableDate }}</time>.</h4></div>
     <figure>
-    <img class="pure-img" src="/photos/w960/{{ image_path }}" alt="{{ image.ImageDescription }}">
+    <img class="pure-img" src="/photos/w960/{{ image_path }}" alt="{{ title }}">
       <figcaption class="text-container">
         <p>Taken with:
         <ul class="exif">
-          <li class="camera-make">{{ image.Make }}</li>
-          <li>{{ image.Model }}</li>
-          <li>{{ exif.LensModel }} lens</li>
-          <li>{{ exif.ISO }} ISO</li>
-          <li>ƒ/{{exif.FNumber }}</li>
+          <li class="camera-make">{{ camera_make }}</li>
+          <li>{{ camera_model }}</li>
+          <li>{{ lens_model }} lens</li>
+          <li>{{ iso }} ISO</li>
+          <li>ƒ/{{ fnumber }}</li>
         </ul>
         </p>
       </figcaption>
