@@ -65,6 +65,12 @@ module.exports = function (eleventyConfig) {
         return [...tagSet];
     });
 
+    // Add this new collection
+    eleventyConfig.addCollection("posts", function(collectionApi) {
+        return collectionApi.getFilteredByGlob("src/_posts/*.md")
+          .sort((a, b) => b.date - a.date);
+    });
+
     // Browsersync Overrides
     eleventyConfig.setBrowserSyncConfig({
         callbacks: {

@@ -4,7 +4,7 @@ const getDateFromPhoto = require('./GetDateFromPhoto');
 const JIMP = require('jimp');
 const path = require('path');
 
-module.exports = async function (file, widths, outputDir) {
+async function optimisePhoto (file, widths, outputDir) {
   let newName = await getDateFromPhoto(file);
   newName = await formatDate(newName) + path.extname(file);
   widths.map(width => {
@@ -31,3 +31,5 @@ module.exports = async function (file, widths, outputDir) {
     }
   });
 }
+
+module.exports = optimisePhoto;

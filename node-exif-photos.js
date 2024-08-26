@@ -5,13 +5,14 @@ const glob = require("fast-glob");
 // const formatDate = require("./utils/FormatDate");
 
 const optimisePhoto = require("./utils/OptimisePhoto");
-const writeExifFile = require("./utils/WriteExifFile");
+const frontMatter = require("./utils/FrontMatter");
 
 (async function () {
   const OPTIONS = {
     widths: [520, 960],
     input_photos_dir: "src/_photos",
-    output_photos_dir: "src/photos"
+    output_photos_dir: "src/photos",
+    output_posts_dir: "src/_posts"
   };
 
   var files = await glob([
@@ -23,6 +24,7 @@ const writeExifFile = require("./utils/WriteExifFile");
 
   // Empty the _exifdata folder - regenerate files based on current photos tree
   fs.emptyDirSync('src/_exifdata');
+  fs.emptyDirSync('src/_posts');
 
   // Re-write the file to enable a collection
   fs.writeJson('src/_exifdata/_exifdata.json', JSON.parse(templateDataFile), err => {
@@ -35,7 +37,7 @@ const writeExifFile = require("./utils/WriteExifFile");
     // These are available in the same folder w{width} eg. /w320/dd_LL_yyyy_hhmmss.jpg
     await optimisePhoto(file, OPTIONS.widths, OPTIONS.output_photos_dir);
 
-    // // Writes a file with JSON frontmatter exposing the exif data
-    await writeExifFile(file, OPTIONS.input_photos_dir);
+    // Writes a file with JSON frontmatter exposing the exif data
+    await frontMatter(file, OPTIONS.output_posts_dir);
   })
 })();
