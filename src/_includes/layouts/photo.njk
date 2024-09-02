@@ -22,7 +22,7 @@ layout: "layouts/base.njk"
     <article class="photo-entry pure-u-1 pure-u-lg-7-8">
     <div class="text-container"><h4>Taken on <time>{{ date | readableDate }}</time>.</h4></div>
     <figure>
-    <img class="pure-img" src="/photos/w960/{{ image_path }}" alt="{{ title }}">
+    <img class="pure-img" src="{{ '/photos/w960/' | url }}{{ image_path }}" alt="{{ title }}">
       <figcaption class="text-container">
         <p>Taken with:
         <ul class="exif">

@@ -84,7 +84,7 @@ lens_model: "${lensModel}"
 iso: "${ISO}"
 fnumber: "${fNumber}"
 shutter_speed: "${shutterSpeed}"
-image_url: "${imagePath}"
+image_path: "${imagePath}"
 pixel_x_dimension: ${pixelXDimension || ''}
 pixel_y_dimension: ${pixelYDimension || ''}
 ---

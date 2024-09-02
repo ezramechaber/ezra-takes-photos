@@ -3,6 +3,7 @@ const {
 } = require("luxon");
 
 const inspect = require("util").inspect;
+const util = require('util');
 
 module.exports = function (eleventyConfig) {
     // Folders to copy to build dir (See. 1.1)
@@ -29,7 +30,7 @@ module.exports = function (eleventyConfig) {
         }).toLocaleString(DateTime.DATE_HUGE);;
     });
   
-    eleventyConfig.addFilter("debug", (content) => `<pre>${inspect(content)}</pre>`);
+    eleventyConfig.addFilter("debug", (content) => `<pre>${util.inspect(content)}</pre>`);
 
     eleventyConfig.addCollection("exifPhotos", function (collection) {
         return collection.getFilteredByGlob("src/_exifdata/*.md").sort(function (a, b) {
@@ -99,6 +100,8 @@ module.exports = function (eleventyConfig) {
         htmlTemplateEngine: "njk",
 
         // 1.1 Enable eleventy to pass dirs specified above
-        passthroughFileCopy: true
+        passthroughFileCopy: true,
+
+        // Set up the repo for 'docs' github pages
     };
 };

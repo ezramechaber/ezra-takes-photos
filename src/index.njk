@@ -24,9 +24,9 @@ pagination:
                 <figure>
                     <a href="{{ photo.url }}">
                     <noscript>
-                        <img class="pure-img" alt="{{ photo.title or 'Photo' }}" src="{{ photo.image_url }}">
+                        <img class="pure-img" alt="{{ photo.title or 'Photo' }}" src="{{ '/photos/w960/' | url }}{{ photo.data.image_path }}">
                     </noscript>
-                    <img class="lazy pure-img" src="{{ photo.image_url | replace('/w960/', '/blur/') }}" alt="{{ photo.title or 'Photo' }}" data-src="{{ photo.image_url }}">
+                    <img class="lazy pure-img" src="{{ '/photos/blur/' | url }}{{ photo.data.image_path }}" alt="{{ photo.data.title or 'Photo' }}" data-src="{{ '/photos/w960/' | url }}{{ photo.data.image_path }}">
                     </a>
                     <figcaption class="text-container">
                         Ezra took this photo on <a href="{{ photo.url }}"><time>{{ photo.date | readableDate }}</time></a>.

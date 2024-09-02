@@ -5,7 +5,7 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "NODE_ENV=production node node-exif-photos && eleventy",
-    "build-ghpages": "NODE_ENV=production node node-exif-photos && eleventy --pathprefix=/"
+    "build-ghpages": "NODE_ENV=production node node-exif-photos && eleventy --pathprefix=/ezra-takes-photos"
   },
   "dependencies": {
     "eleventy-plugin-seo": "^0.5.1",
