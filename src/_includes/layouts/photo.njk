@@ -16,7 +16,7 @@ layout: "layouts/base.njk"
 {%- set prevItemIndex = currentItemIndex - 1 %}
 {%- set nextItemIndex = currentItemIndex + 1 %}
 
-{% include '_header.njk' %}
+{% include 'partials/header.njk' %}
 <main class="pure-u-1">
     <section class="pure-g photo-entries">
     <article class="photo-entry pure-u-1 pure-u-lg-7-8">
@@ -39,5 +39,5 @@ layout: "layouts/base.njk"
     </section>
     <div class="text-container"><a href="/">Back to all photos</a></div>
 </main>
-{% include '_nav.njk' %}
-{% include '_footer.njk' %}
+{% include 'partials/nav.njk' %}
+{% include 'partials/footer.njk' %}

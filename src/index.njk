@@ -7,7 +7,7 @@ pagination:
  alias: photoList
 ---
 
-{% include '_header.njk' %}
+{% include 'partials/header.njk' %}
 <main class="pure-u-1">
     <!-- A wrapper for all the blog posts -->
     <div class="text-container"><h4>Ezra has taken <mark>{{ collections.posts.length }}</mark> photos.</h4></div>
@@ -37,5 +37,5 @@ pagination:
     </section>
 </main>
 
-{% include '_nav.njk' %}
-{% include '_footer.njk' %}
+{% include 'partials/nav.njk' %}
+{% include 'partials/footer.njk' %}
