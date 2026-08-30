@@ -1,0 +1,17 @@
+# Local development database only.
+# Next + Payload run on the host via `npm run dev`.
+# In production, Payload Cloud provisions MongoDB and injects DATABASE_URI.
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - '27017:27017'
+    command:
+      - --storageEngine=wiredTiger
+    volumes:
+      - data:/data/db
+    logging:
+      driver: none
+
+volumes:
+  data:

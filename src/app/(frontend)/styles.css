@@ -1,0 +1,276 @@
+:root {
+  --bg: #fbfbfa;
+  --fg: #16161a;
+  --muted: #6c6c74;
+  --rule: #e2e2de;
+  --accent: #16161a;
+  --measure: 46rem;
+  --gap: 4.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0e10;
+    --fg: #e8e8e6;
+    --muted: #8e8e96;
+    --rule: #26262a;
+    --accent: #e8e8e6;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.shell {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ---------- header / footer ---------- */
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 2.5rem 0 3.5rem;
+}
+
+.masthead__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.masthead__title a {
+  text-decoration: none;
+}
+
+.masthead__nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.masthead__nav a {
+  text-decoration: none;
+}
+
+.masthead__nav a:hover {
+  color: var(--fg);
+}
+
+.colophon {
+  margin-top: 6rem;
+  padding: 2rem 0 4rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- feed ---------- */
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+.frame figure {
+  margin: 0;
+}
+
+.frame img {
+  width: 100%;
+  border-radius: 2px;
+}
+
+.frame figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+}
+
+.frame figcaption a {
+  text-decoration: none;
+}
+
+.frame figcaption a:hover {
+  text-decoration: underline;
+}
+
+.frame__caption {
+  color: var(--fg);
+}
+
+/* ---------- exif ---------- */
+
+.exif {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.exif li {
+  white-space: nowrap;
+}
+
+/* ---------- photo page ---------- */
+
+.photo-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.photo-detail img {
+  width: 100%;
+  border-radius: 2px;
+}
+
+.photo-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.photo-meta__date {
+  font-size: 0.9375rem;
+}
+
+/* ---------- pagination / prev-next ---------- */
+
+.pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 4rem;
+  font-size: 0.875rem;
+}
+
+.pager a {
+  text-decoration: none;
+  color: var(--muted);
+}
+
+.pager a:hover {
+  color: var(--fg);
+}
+
+.pager__spacer {
+  visibility: hidden;
+}
+
+/* ---------- sets ---------- */
+
+.set-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2.5rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.set-card a {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.set-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.set-card__title {
+  font-size: 0.9375rem;
+  font-weight: 550;
+}
+
+.set-card__meta {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.set-intro {
+  margin-bottom: 3.5rem;
+}
+
+.set-intro h1 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.5rem;
+}
+
+.set-intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+/* ---------- draft banner ---------- */
+
+.draft-banner {
+  background: #b45309;
+  color: #fff;
+  font-size: 0.8125rem;
+  padding: 0.5rem 1.25rem;
+  text-align: center;
+}

@@ -104,5 +104,13 @@ typings/
 
 #Photos
 src/_photos
+# Camera originals: 656MB, never versioned. The `src` -> `legacy` move put them
+# outside the old rule's reach, so cover the new path too.
+legacy/_photos
 
 .DS_Store
+# Payload / Next
+.next/
+.uploads/
+next-env.d.ts
+.env
