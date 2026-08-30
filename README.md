@@ -1,6 +1,6 @@
 # Ezra Takes Photos
 
-A photo site backed by [Payload CMS 3](https://payloadcms.com), running as a Next.js app.
+A photo site backed by [Payload CMS 4](https://payloadcms.com), running as a Next.js app.
 
 Upload a photo in the admin; EXIF, three WebP derivatives, a blur placeholder and the
 permalink are all derived from the file itself. There is no build step to run and no
@@ -14,7 +14,7 @@ files to commit.
 | | Needs |
 |---|---|
 | **Deploying** | A browser. Payload Cloud builds from this repo — no local checkout required. |
-| **Local development** | Node ≥ 20, Docker (for MongoDB), and an `.env`. |
+| **Local development** | Node ≥ 24.15, Docker (for MongoDB), and an `.env`. |
 | **The one-time photo import** | All of the above **plus the camera originals**, which are *not* in git. |
 
 That last row is the only thing that makes one computer different from another —

@@ -114,3 +114,7 @@ legacy/_photos
 .uploads/
 next-env.d.ts
 .env
+
+# Figma CMS
+.env.local
+lambda.zip

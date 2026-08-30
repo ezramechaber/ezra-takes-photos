@@ -13,23 +13,24 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/migrate-eleventy.ts",
-    "build:redirects": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/build-redirects.ts"
+    "build:redirects": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/build-redirects.ts",
+    "lambda:buildzip": "npm run build && npx payloadcms-figma build-lambda-zip"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "3.88.0",
-    "@payloadcms/live-preview-react": "3.88.0",
-    "@payloadcms/next": "3.88.0",
-    "@payloadcms/payload-cloud": "3.88.0",
-    "@payloadcms/richtext-lexical": "3.88.0",
-    "@payloadcms/ui": "3.88.0",
+    "@payloadcms/figma": "0.1.0-alpha.6",
+    "@payloadcms/live-preview-react": "4.0.0-canary.29",
+    "@payloadcms/next": "4.0.0-canary.29",
+    "@payloadcms/payload-cloud": "4.0.0-canary.29",
+    "@payloadcms/plugin-cloud-storage": "4.0.0-canary.29",
+    "@payloadcms/richtext-lexical": "4.0.0-canary.29",
+    "@payloadcms/ui": "4.0.0-canary.29",
     "cross-env": "^7.0.3",
     "exifr": "^7.1.3",
     "graphql": "^16.8.1",
     "next": "16.3.0",
-    "payload": "3.88.0",
+    "payload": "4.0.0-canary.29",
     "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "sharp": "^0.35.4"
+    "react-dom": "19.2.6"
   },
   "devDependencies": {
     "@types/node": "22.19.9",
@@ -39,6 +40,6 @@
     "typescript": "5.7.3"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=24.15.0"
   }
 }

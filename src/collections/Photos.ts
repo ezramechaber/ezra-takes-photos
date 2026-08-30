@@ -100,17 +100,20 @@ export const Photos: CollectionConfig = {
       {
         name: 'thumb',
         width: 400,
-        formatOptions: { format: 'webp', options: { quality: 82 } },
+        format: 'webp',
+        quality: 82,
       },
       {
         name: 'feed',
         width: 1000,
-        formatOptions: { format: 'webp', options: { quality: 82 } },
+        format: 'webp',
+        quality: 82,
       },
       {
         name: 'full',
         width: 2000,
-        formatOptions: { format: 'webp', options: { quality: 82 } },
+        format: 'webp',
+        quality: 82,
       },
     ],
   },
