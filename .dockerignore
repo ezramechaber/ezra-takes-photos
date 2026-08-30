@@ -1,0 +1,24 @@
+# Payload Cloud builds a Docker image from a checkout of this repo.
+# Everything here is either rebuilt during the build or irrelevant to it.
+
+node_modules
+.next
+.git
+.github
+.env
+.env.*
+!.env.example
+
+# Local upload directory. In production the payloadCloudPlugin swaps in S3
+# and nothing is written to the container's disk.
+.uploads
+
+# The old Eleventy site. Kept in the repo until the Cloud import is confirmed,
+# but it must never reach a production image — legacy/photos alone is 29MB of
+# derivatives that nothing serves any more.
+legacy
+docs
+
+README.md
+AGENTS.md
+CLAUDE.md
