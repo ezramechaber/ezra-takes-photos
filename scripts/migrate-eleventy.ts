@@ -6,7 +6,9 @@ import { getPayload } from 'payload'
 import { extractExif } from '../src/lib/exif'
 
 /**
- * One-time import of the Eleventy-era photo library into Payload.
+ * One-time import of the Eleventy-era photo library into Payload. Camera
+ * originals are preferred; missing old-site photos fall back to the checked-in
+ * 960px rendition so every surviving post is preserved.
  *
  *   DRY_RUN=1 npm run migrate        inspect without writing
  *   npm run migrate                  create the records
@@ -43,6 +45,7 @@ const PHOTOS_DIR = path.resolve(
   process.env.PHOTO_IMPORT_DIR || 'legacy/_photos',
 )
 const POSTS_DIR = path.resolve(process.cwd(), 'legacy/_posts')
+const LEGACY_RENDITIONS_DIR = path.resolve(process.cwd(), 'legacy/photos/w960')
 // An env var, not a flag: `payload run` consumes argv before the script sees
 // it, so `npm run migrate -- --dry-run` silently ran a real import.
 const DRY_RUN = process.env.DRY_RUN === '1'
@@ -59,8 +62,13 @@ function legacyDateURL(capturedAt: Date): string {
   return `${day}-${month}-${year}-${pad(minute)}${pad(second)}${minute}${second}`
 }
 
-async function readKnownDateURLs(): Promise<Map<string, string>> {
-  const map = new Map<string, string>()
+type LegacyPost = {
+  file: string
+  imagePath: string
+}
+
+async function readKnownDateURLs(): Promise<Map<string, LegacyPost>> {
+  const map = new Map<string, LegacyPost>()
   let files: string[] = []
   try {
     files = await fs.readdir(POSTS_DIR)
@@ -72,8 +80,9 @@ async function readKnownDateURLs(): Promise<Map<string, string>> {
   for (const file of files) {
     if (!file.endsWith('.md')) continue
     const contents = await fs.readFile(path.join(POSTS_DIR, file), 'utf8')
-    const match = contents.match(/^date_url:\s*"([^"]+)"/m)
-    if (match) map.set(match[1], file)
+    const dateURL = contents.match(/^date_url:\s*"([^"]+)"/m)?.[1]
+    const imagePath = contents.match(/^image_path:\s*"([^"]+)"/m)?.[1]
+    if (dateURL && imagePath) map.set(dateURL, { file, imagePath })
   }
   return map
 }
@@ -107,6 +116,10 @@ async function main() {
         overrideAccess: true,
       })
       if (existing.docs.length > 0) {
+        const legacySlug = existing.docs[0]?.legacySlug
+        if (typeof legacySlug === 'string' && knownDateURLs.has(legacySlug)) {
+          matchedDateURLs.add(legacySlug)
+        }
         skipped.push(`${file} (already imported)`)
         continue
       }
@@ -150,6 +163,58 @@ async function main() {
     }
   }
 
+  // A handful of old posts no longer have a corresponding camera original.
+  // Preserve those photos and permalinks with the checked-in 960px rendition.
+  // Filename + legacySlug make this pass idempotent, just like the originals.
+  for (const [legacySlug, post] of knownDateURLs) {
+    if (matchedDateURLs.has(legacySlug)) continue
+
+    const existing = await payload.find({
+      collection: 'photos',
+      where: { legacySlug: { equals: legacySlug } },
+      limit: 1,
+      depth: 0,
+      overrideAccess: true,
+    })
+    if (existing.docs.length > 0) {
+      matchedDateURLs.add(legacySlug)
+      skipped.push(`${post.imagePath} (legacy rendition already imported)`)
+      continue
+    }
+
+    const filePath = path.join(LEGACY_RENDITIONS_DIR, post.imagePath)
+    try {
+      await fs.access(filePath)
+
+      if (DRY_RUN) {
+        created.push(`${post.imagePath} -> ${legacySlug} (legacy rendition)`)
+        matchedDateURLs.add(legacySlug)
+        continue
+      }
+
+      const doc = await payload.create({
+        collection: 'photos',
+        filePath,
+        data: {
+          legacySlug,
+          _status: 'published',
+        },
+        context: { disableRevalidate: true },
+        overrideAccess: true,
+      })
+
+      created.push(`${post.imagePath} -> /photo/${doc.slug} (legacy rendition)`)
+      matchedDateURLs.add(legacySlug)
+      process.stdout.write('.')
+    } catch (error) {
+      failed.push({
+        file: post.imagePath,
+        reason: error instanceof Error ? error.message : String(error),
+      })
+      process.stdout.write('x')
+    }
+  }
+
   console.log('\n\n' + '='.repeat(64))
   console.log(`Created: ${created.length}`)
   console.log(`Skipped: ${skipped.length}`)
@@ -163,7 +228,7 @@ async function main() {
   const orphaned = [...knownDateURLs.entries()].filter(([url]) => !matchedDateURLs.has(url))
   if (orphaned.length > 0) {
     console.log(`\nLegacy posts with no matching original (${orphaned.length}):`)
-    for (const [url, file] of orphaned) console.log(`  - ${file} (${url})`)
+    for (const [url, post] of orphaned) console.log(`  - ${post.file} (${url})`)
   }
 
   console.log('='.repeat(64))

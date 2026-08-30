@@ -7,11 +7,12 @@
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
     "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
-    "build": "cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
+    "build": "npm run generate:static-photos && cross-env NODE_OPTIONS=\"--no-deprecation --max-old-space-size=8000\" next build",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
+    "generate:static-photos": "tsx scripts/build-static-photos.ts",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/migrate-eleventy.ts",
     "build:redirects": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/build-redirects.ts",
     "lambda:buildzip": "npm run build && npx payloadcms-figma build-lambda-zip"

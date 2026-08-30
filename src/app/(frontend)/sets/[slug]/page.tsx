@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { PhotoImage } from '@/components/PhotoImage'
+import { getStaticPhotoSources } from '@/generated/static-photo-sources'
 import { getAllSetSlugs, getSetBySlug, isDraftMode } from '@/lib/queries'
-import { formatLongDate, machineDate } from '@/lib/site'
+import { formatLongDate, machineDate, SERVER_URL } from '@/lib/site'
 import type { Photo } from '@/payload-types'
 
 type Props = {
@@ -24,7 +25,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const photos = (set.photos ?? []).filter(
     (p): p is Photo => Boolean(p) && typeof p === 'object',
   )
-  const image = photos[0]?.sizes?.feed?.url ?? undefined
+  const firstPhoto = photos[0]
+  const staticImage = firstPhoto
+    ? getStaticPhotoSources(firstPhoto.legacySlug)?.large.src
+    : undefined
+  const image = staticImage
+    ? new URL(staticImage, SERVER_URL).href
+    : (firstPhoto?.sizes?.feed?.url ?? undefined)
 
   return {
     title: set.title,

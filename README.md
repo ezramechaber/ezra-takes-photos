@@ -3,8 +3,9 @@
 A photo site backed by [Payload CMS 4](https://payloadcms.com), running as a Next.js app.
 
 Upload a photo in the admin; EXIF, three WebP derivatives, a blur placeholder and the
-permalink are all derived from the file itself. There is no build step to run and no
-files to commit.
+permalink are all derived from the file itself. The migrated library also bundles its
+checked-in 520px/960px renditions so the public site does not depend on a warm media
+route to render existing photos.
 
 > The Eleventy version of this site lives on the `main` branch, and the code it
 > replaced is under `legacy/` until the Payload Cloud import is confirmed.
@@ -92,9 +93,11 @@ because Payload can retain the full-resolution source and generate larger deriva
 `payload run` consumes argv before the script sees it, which is why the dry run is an
 environment variable and not a `--flag`.
 
-The import is idempotent on filename, so re-running is safe — useful if you recover
-more originals later. 104 of 109 photos import; the other 5 have no EXIF capture date
-and are listed by name so you can fix or drop them.
+The import is idempotent on filename and legacy permalink, so re-running is safe.
+104 of 109 originals import; the other 5 have no EXIF capture date and are listed by
+name so you can fix or drop them. The importer also preserves 8 old-site photos whose
+camera originals are missing by uploading their checked-in 960px renditions, for 112
+usable photos in total.
 
 ## Scripts
 
@@ -104,6 +107,7 @@ and are listed by name so you can fix or drop them.
 | `npm run build` / `npm start` | Production build and server |
 | `npm run migrate` | Import `legacy/_photos` into Payload |
 | `npm run build:redirects` | Regenerate `redirects.json` from `legacySlug` values |
+| `npm run generate:static-photos` | Prepare the 112 legacy static fallbacks |
 | `npm run generate:types` | Rewrite `src/payload-types.ts` after a schema change |
 | `npm run payload` | The Payload CLI |
 
@@ -118,7 +122,8 @@ src/
   app/(payload)/                 admin panel and REST/GraphQL
   app/(frontend)/                the public site
 scripts/                         one-time import, redirect generation
-redirects.json                   104 permanent redirects from the old permalinks
+src/generated/                   generated static-photo import map
+redirects.json                   permanent redirects from the old permalinks
 ```
 
 `lib/queries.ts` is deliberately the single data surface: the photo library is the

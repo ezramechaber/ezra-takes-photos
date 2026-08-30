@@ -1,8 +1,9 @@
 import type { Photo } from '@/payload-types'
 
+export { SERVER_URL } from './server-url'
+
 export const SITE_TITLE = 'Ezra Takes Photos'
 export const SITE_DESCRIPTION = 'Sometimes, photos.'
-export const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
 /**
  * Capture times are stored as UTC-anchored wall clock (see lib/exif.ts), so

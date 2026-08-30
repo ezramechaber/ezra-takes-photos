@@ -1,4 +1,5 @@
 import type { Photo } from '@/payload-types'
+import { getStaticPhotoSources } from '@/generated/static-photo-sources'
 
 /**
  * Payload has already produced thumb/feed/full derivatives with sharp, so there
@@ -22,18 +23,25 @@ type Props = {
 }
 
 export function PhotoImage({ photo, variant, sizes, priority = false, className }: Props) {
+  const staticSources = getStaticPhotoSources(photo.legacySlug)
   const candidates = (['thumb', 'feed', 'full'] as const)
     .map((name) => photo.sizes?.[name])
     .filter((size) => size?.url && size?.width)
 
-  const srcSet = candidates.map((size) => `${size!.url} ${size!.width}w`).join(', ')
+  const srcSet = staticSources
+    ? `${staticSources.small.src} ${staticSources.small.width}w, ${staticSources.large.src} ${staticSources.large.width}w`
+    : candidates.map((size) => `${size!.url} ${size!.width}w`).join(', ')
 
   // Portrait originals are only 1536px wide, so Payload declines to upscale them
   // to the 2000px `full` size and that key is simply absent. Step down to the
   // largest derivative that does exist rather than falling through to the
   // original, which is a 1.5-2MB JPEG.
   const largest = candidates.at(-1)
-  const fallback = photo.sizes?.[variant]?.url ?? largest?.url ?? photo.url ?? undefined
+  const fallback = staticSources
+    ? variant === 'thumb'
+      ? staticSources.small.src
+      : staticSources.large.src
+    : (photo.sizes?.[variant]?.url ?? largest?.url ?? photo.url ?? undefined)
 
   if (!fallback) return null
 
@@ -43,8 +51,8 @@ export function PhotoImage({ photo, variant, sizes, priority = false, className 
       src={fallback}
       srcSet={srcSet || undefined}
       sizes={sizes}
-      width={photo.width ?? undefined}
-      height={photo.height ?? undefined}
+      width={staticSources?.large.width ?? photo.width ?? undefined}
+      height={staticSources?.large.height ?? photo.height ?? undefined}
       alt={photo.caption ?? ''}
       loading={priority ? 'eager' : 'lazy'}
       decoding={priority ? 'sync' : 'async'}

@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { PhotoImage } from '@/components/PhotoImage'
+import { getStaticPhotoSources } from '@/generated/static-photo-sources'
 import { getAdjacentPhotos, getAllPhotoSlugs, getPhotoBySlug, isDraftMode } from '@/lib/queries'
-import { exifSummary, formatLongDate, machineDate, SITE_TITLE } from '@/lib/site'
+import { exifSummary, formatLongDate, machineDate, SERVER_URL, SITE_TITLE } from '@/lib/site'
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -23,7 +24,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const date = formatLongDate(photo.capturedAt)
   const title = photo.caption || date || SITE_TITLE
   const description = photo.caption || `A photo taken on ${date}.`
-  const image = photo.sizes?.feed?.url ?? photo.url ?? undefined
+  const staticImage = getStaticPhotoSources(photo.legacySlug)?.large.src
+  const image = staticImage
+    ? new URL(staticImage, SERVER_URL).href
+    : (photo.sizes?.feed?.url ?? photo.url ?? undefined)
 
   return {
     title,

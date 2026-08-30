@@ -28,6 +28,14 @@
     "destination": "/photo/2021-07-04-205611"
   },
   {
+    "source": "/photo/07-08-2024-25122512",
+    "destination": "/photo/2024-08-07-072512"
+  },
+  {
+    "source": "/photo/07-08-2024-26322632",
+    "destination": "/photo/2024-08-07-072632"
+  },
+  {
     "source": "/photo/07-09-2024-26212621",
     "destination": "/photo/2024-09-07-122621"
   },
@@ -132,6 +140,14 @@
     "destination": "/photo/2020-05-10-093926"
   },
   {
+    "source": "/photo/10-09-2024-22232223",
+    "destination": "/photo/2024-09-10-082223"
+  },
+  {
+    "source": "/photo/10-09-2024-26342634",
+    "destination": "/photo/2024-09-10-082634"
+  },
+  {
     "source": "/photo/11-08-2021-12171217",
     "destination": "/photo/2021-08-11-081217"
   },
@@ -142,6 +158,14 @@
   {
     "source": "/photo/12-02-2020-43404340",
     "destination": "/photo/2020-02-12-154340"
+  },
+  {
+    "source": "/photo/13-08-2024-12161216",
+    "destination": "/photo/2024-08-13-071216"
+  },
+  {
+    "source": "/photo/13-08-2024-56445644",
+    "destination": "/photo/2024-08-13-065644"
   },
   {
     "source": "/photo/14-02-2020-38293829",
@@ -348,6 +372,10 @@
     "destination": "/photo/2020-02-23-123311"
   },
   {
+    "source": "/photo/23-07-2024-45474547",
+    "destination": "/photo/2024-07-23-104547"
+  },
+  {
     "source": "/photo/23-08-2021-28182818",
     "destination": "/photo/2021-08-23-162818"
   },
@@ -414,5 +442,9 @@
   {
     "source": "/photo/29-05-2020-56425642",
     "destination": "/photo/2020-05-29-135642"
+  },
+  {
+    "source": "/photo/30-07-2024-0717717",
+    "destination": "/photo/2024-07-30-100717"
   }
 ]

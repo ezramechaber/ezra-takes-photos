@@ -5,6 +5,7 @@ import sharp from 'sharp'
 import { buildFigmaConfig } from '@payloadcms/figma'
 import { fileURLToPath } from 'url'
 import { buildPreviewURL } from './lib/preview'
+import { SERVER_URL } from './lib/server-url'
 import { Users } from './collections/Users'
 import { Photos } from './collections/Photos'
 import { Sets } from './collections/Sets'
@@ -12,14 +13,8 @@ import { Sets } from './collections/Sets'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const serverURL =
-  process.env.NEXT_PUBLIC_SERVER_URL ||
-  (process.env.NODE_ENV === 'production'
-    ? 'https://ezra-takes-photos.figma.site'
-    : 'http://localhost:3000')
-
 export default buildFigmaConfig({
-  serverURL,
+  serverURL: SERVER_URL,
   sharp,
   admin: {
     user: Users.slug,
