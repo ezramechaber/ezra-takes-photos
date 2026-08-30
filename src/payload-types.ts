@@ -137,6 +137,9 @@ export interface User {
   email?: string | null;
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   collection: 'users';
 }
 /**
@@ -331,6 +334,9 @@ export interface UsersSelect<T extends boolean = true> {
   email?: T;
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

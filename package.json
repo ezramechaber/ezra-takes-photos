@@ -22,6 +22,7 @@
     "@payloadcms/next": "4.0.0-canary.29",
     "@payloadcms/payload-cloud": "4.0.0-canary.29",
     "@payloadcms/plugin-cloud-storage": "4.0.0-canary.29",
+    "@payloadcms/plugin-mcp": "4.0.0-canary.29",
     "@payloadcms/richtext-lexical": "4.0.0-canary.29",
     "@payloadcms/ui": "4.0.0-canary.29",
     "cross-env": "^7.0.3",
@@ -30,7 +31,8 @@
     "next": "16.3.0",
     "payload": "4.0.0-canary.29",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "sharp": "0.35.4"
   },
   "devDependencies": {
     "@types/node": "22.19.9",

@@ -84,6 +84,11 @@ npm run migrate              # create the records
 npm run build:redirects      # regenerate redirects.json, then commit it
 ```
 
+`PHOTO_IMPORT_DIR` can point the importer at another folder. For example,
+`PHOTO_IMPORT_DIR=legacy/photos/w960 npm run migrate` imports the checked-in 960px
+copies when the camera originals are unavailable. The originals remain preferable
+because Payload can retain the full-resolution source and generate larger derivatives.
+
 `payload run` consumes argv before the script sees it, which is why the dry run is an
 environment variable and not a `--flag`.
 

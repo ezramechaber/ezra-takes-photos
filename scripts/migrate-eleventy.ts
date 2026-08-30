@@ -38,7 +38,10 @@ import { extractExif } from '../src/lib/exif'
  * ---------------------------------------------------------------------------
  */
 
-const PHOTOS_DIR = path.resolve(process.cwd(), 'legacy/_photos')
+const PHOTOS_DIR = path.resolve(
+  process.cwd(),
+  process.env.PHOTO_IMPORT_DIR || 'legacy/_photos',
+)
 const POSTS_DIR = path.resolve(process.cwd(), 'legacy/_posts')
 // An env var, not a flag: `payload run` consumes argv before the script sees
 // it, so `npm run migrate -- --dry-run` silently ran a real import.
