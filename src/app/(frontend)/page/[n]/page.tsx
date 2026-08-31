@@ -6,6 +6,10 @@ import { getFeedPageCount } from '@/lib/queries'
 
 type Props = { params: Promise<{ n: string }> }
 
+// Match the root feed: new uploads can change pagination immediately, and Figma
+// Cloud currently ignores Next's ISR interval for statically generated pages.
+export const dynamic = 'force-dynamic'
+
 export async function generateStaticParams() {
   const totalPages = await getFeedPageCount()
   // Page 1 is `/`, so numbered routes start at 2.

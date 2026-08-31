@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   },
 }
 
+// Preserve a bounded ISR interval for prerendered photo and set pages. Figma
+// Cloud currently ignores it, so the upload feed separately forces dynamic.
+export const revalidate = 30
+
 export default async function FrontendLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled: isDraft } = await draftMode()
   const count = await getPhotoCount()

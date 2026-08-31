@@ -7,10 +7,9 @@ import { formatLongDate, machineDate } from '@/lib/site'
 /**
  * Shared by `/` and `/page/[n]`.
  *
- * Pagination lives in the route rather than a ?page= search param on purpose:
- * reading searchParams opts a route into dynamic rendering, which would make
- * the busiest page on the site query Mongo on every single request. As routes,
- * every page of the feed prerenders and is revalidated by the collection hooks.
+ * Pagination lives in the route rather than a ?page= search param so each page
+ * has a stable, shareable URL. The route files currently force dynamic delivery
+ * because Figma Cloud does not honor Next's ISR metadata for these pages.
  */
 export async function Feed({ page }: { page: number }) {
   const draft = await isDraftMode()
