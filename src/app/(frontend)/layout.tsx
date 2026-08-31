@@ -46,11 +46,17 @@ export default async function FrontendLayout({ children }: { children: React.Rea
         <div className="shell">
           <header className="masthead">
             <h1 className="masthead__title">
-              <Link href="/">{SITE_TITLE}</Link>
+              <Link href="/" prefetch={false}>
+                {SITE_TITLE}
+              </Link>
             </h1>
             <nav className="masthead__nav">
-              <Link href="/">Photos</Link>
-              <Link href="/sets">Sets</Link>
+              <Link href="/" prefetch={false}>
+                Photos
+              </Link>
+              <Link href="/sets" prefetch={false}>
+                Sets
+              </Link>
             </nav>
           </header>
 

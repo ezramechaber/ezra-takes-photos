@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation'
 import { PhotoImage } from '@/components/PhotoImage'
 import { getStaticPhotoSources } from '@/generated/static-photo-sources'
 import { getAllSetSlugs, getSetBySlug, isDraftMode } from '@/lib/queries'
-import { formatLongDate, machineDate, SERVER_URL } from '@/lib/site'
+import { formatLongDate, formatLongDateTime, machineDate, SERVER_URL } from '@/lib/site'
 import type { Photo } from '@/payload-types'
 
 type Props = {
@@ -67,28 +67,35 @@ export default async function SetPage({ params }: Props) {
         <p className="empty">Nothing in this set yet.</p>
       ) : (
         <div className="feed">
-          {photos.map((photo, index) => (
-            <article className="frame" key={photo.id}>
-              <figure>
-                <Link href={`/photo/${photo.slug}`}>
-                  <PhotoImage
-                    photo={photo}
-                    variant="feed"
-                    sizes="(max-width: 48rem) 100vw, 46rem"
-                    priority={index === 0}
-                  />
-                </Link>
-                <figcaption>
-                  {photo.caption && <span className="frame__caption">{photo.caption}</span>}
-                  <Link href={`/photo/${photo.slug}`}>
-                    <time dateTime={machineDate(photo.capturedAt)}>
-                      {formatLongDate(photo.capturedAt)}
-                    </time>
+          {photos.map((photo, index) => {
+            const href = `/photo/${photo.slug}`
+            const date = formatLongDate(photo.capturedAt)
+            const dateTime = formatLongDateTime(photo.capturedAt)
+            const imageLinkLabel = photo.caption
+              ? `View photo: ${photo.caption}, taken ${dateTime}`
+              : `View photo from ${dateTime}`
+
+            return (
+              <article className="frame" key={photo.id}>
+                <figure>
+                  <Link href={href} prefetch={false} aria-label={imageLinkLabel}>
+                    <PhotoImage
+                      photo={photo}
+                      variant="feed"
+                      sizes="(max-width: 48rem) 100vw, 46rem"
+                      priority={index < 2}
+                    />
                   </Link>
-                </figcaption>
-              </figure>
-            </article>
-          ))}
+                  <figcaption>
+                    {photo.caption && <span className="frame__caption">{photo.caption}</span>}
+                    <Link href={href} prefetch={false}>
+                      <time dateTime={machineDate(photo.capturedAt)}>{date}</time>
+                    </Link>
+                  </figcaption>
+                </figure>
+              </article>
+            )
+          })}
         </div>
       )}
 

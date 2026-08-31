@@ -19,6 +19,17 @@ const LONG_DATE = new Intl.DateTimeFormat('en-US', {
   timeZone: 'UTC',
 })
 
+const LONG_DATE_TIME = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: '2-digit',
+  second: '2-digit',
+  timeZone: 'UTC',
+})
+
 const SHORT_DATE = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'long',
@@ -29,6 +40,11 @@ const SHORT_DATE = new Intl.DateTimeFormat('en-US', {
 export function formatLongDate(value?: string | null): string {
   if (!value) return ''
   return LONG_DATE.format(new Date(value))
+}
+
+export function formatLongDateTime(value?: string | null): string {
+  if (!value) return ''
+  return LONG_DATE_TIME.format(new Date(value))
 }
 
 export function formatShortDate(value?: string | null): string {
