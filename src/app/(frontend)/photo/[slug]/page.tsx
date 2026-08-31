@@ -3,7 +3,12 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { PhotoImage } from '@/components/PhotoImage'
-import { getStaticPhotoSources } from '@/generated/static-photo-sources'
+import {
+  getPhotoShareImage,
+  getPhotoSocialAlt,
+  getPhotoTwitterCardURL,
+  TWITTER_CARD_SIZE,
+} from '@/lib/photo-social'
 import { getAdjacentPhotos, getAllPhotoSlugs, getPhotoBySlug, isDraftMode } from '@/lib/queries'
 import { exifSummary, formatLongDate, machineDate, SERVER_URL, SITE_TITLE } from '@/lib/site'
 
@@ -24,25 +29,39 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const date = formatLongDate(photo.capturedAt)
   const title = photo.caption || date || SITE_TITLE
   const description = photo.caption || `A photo taken on ${date}.`
-  const staticImage = getStaticPhotoSources(photo.legacySlug)?.large.src
-  const image = staticImage
-    ? new URL(staticImage, SERVER_URL).href
-    : (photo.sizes?.feed?.url ?? photo.url ?? undefined)
+  const canonicalURL = new URL(`/photo/${slug}`, SERVER_URL).href
+  const image = getPhotoShareImage(photo)
+  const imageAlt = getPhotoSocialAlt(photo)
+  const twitterImage = getPhotoTwitterCardURL(photo, slug)
 
   return {
     title,
     description,
+    alternates: {
+      canonical: canonicalURL,
+    },
     openGraph: {
       title,
       description,
       type: 'article',
-      images: image ? [{ url: image }] : undefined,
+      url: canonicalURL,
+      siteName: SITE_TITLE,
+      images: image ? [{ ...image, alt: imageAlt }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
+      site: '@ezramechaber',
+      creator: '@ezramechaber',
       title,
       description,
-      images: image ? [image] : undefined,
+      images: [
+        {
+          url: twitterImage,
+          alt: imageAlt,
+          type: 'image/jpeg',
+          ...TWITTER_CARD_SIZE,
+        },
+      ],
     },
   }
 }
