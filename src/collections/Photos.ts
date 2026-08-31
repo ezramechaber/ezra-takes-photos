@@ -1,4 +1,5 @@
-import type { Access, CollectionConfig } from 'payload'
+import type { CloudflareImageSizeOptions } from '@payloadcms/figma'
+import type { Access, CollectionConfig, SharpImageSizeOptions } from 'payload'
 import { revalidatePath } from 'next/cache'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -14,6 +15,49 @@ import { buildPreviewURL } from '../lib/preview'
  */
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
+
+/**
+ * Figma exposes Cloudflare-style image options in Payload's ImageSize type, but
+ * uploads currently run through Payload's Sharp processor. Keep both option
+ * shapes until the Figma adapter maps its typed options into the runtime path.
+ */
+type FigmaSharpImageSize = CloudflareImageSizeOptions &
+  SharpImageSizeOptions & {
+    name: string
+  }
+
+const photoImageSizes = [
+  {
+    name: 'thumb',
+    width: 400,
+    format: 'webp',
+    quality: 82,
+    formatOptions: {
+      format: 'webp',
+      options: { quality: 82 },
+    },
+  },
+  {
+    name: 'feed',
+    width: 1000,
+    format: 'webp',
+    quality: 82,
+    formatOptions: {
+      format: 'webp',
+      options: { quality: 82 },
+    },
+  },
+  {
+    name: 'full',
+    width: 2000,
+    format: 'webp',
+    quality: 82,
+    formatOptions: {
+      format: 'webp',
+      options: { quality: 82 },
+    },
+  },
+] satisfies FigmaSharpImageSize[]
 
 const publishedUnlessAuthenticated: Access = ({ req: { user } }) => {
   if (user) return true
@@ -96,26 +140,7 @@ export const Photos: CollectionConfig = {
     adminThumbnail: 'thumb',
     focalPoint: false,
     crop: false,
-    imageSizes: [
-      {
-        name: 'thumb',
-        width: 400,
-        format: 'webp',
-        quality: 82,
-      },
-      {
-        name: 'feed',
-        width: 1000,
-        format: 'webp',
-        quality: 82,
-      },
-      {
-        name: 'full',
-        width: 2000,
-        format: 'webp',
-        quality: 82,
-      },
-    ],
+    imageSizes: photoImageSizes,
   },
   fields: [
     {
