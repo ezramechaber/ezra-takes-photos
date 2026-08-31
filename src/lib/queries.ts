@@ -54,6 +54,19 @@ export async function getFeed({ page = 1, draft = false }): Promise<Feed> {
   }
 }
 
+/** First published photo in the same order as the homepage feed. */
+export async function getLatestPhoto(): Promise<Photo | null> {
+  const payload = await client()
+  const result = await payload.find({
+    collection: 'photos',
+    sort: '-capturedAt',
+    limit: 1,
+    depth: 0,
+    overrideAccess: false,
+  })
+  return result.docs[0] ?? null
+}
+
 export async function getPhotoBySlug(slug: string, draft = false): Promise<Photo | null> {
   const payload = await client()
   const result = await payload.find({
