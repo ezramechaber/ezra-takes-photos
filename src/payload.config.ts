@@ -5,7 +5,7 @@ import sharp from 'sharp'
 import { buildFigmaConfig } from '@payloadcms/figma'
 import { fileURLToPath } from 'url'
 import { buildPreviewURL } from './lib/preview'
-import { SERVER_URL } from './lib/server-url'
+import { FIGMA_SITE_URL, SERVER_URL } from './lib/server-url'
 import { Users } from './collections/Users'
 import { Photos } from './collections/Photos'
 import { Sets } from './collections/Sets'
@@ -15,6 +15,11 @@ const dirname = path.dirname(filename)
 
 export default buildFigmaConfig({
   serverURL: SERVER_URL,
+  // The managed Figma hostname and the custom domain serve the same app, but
+  // Payload's admin calls serverURL directly. Trust the managed origin for both
+  // browser access and cookie-authenticated writes across those hostnames.
+  cors: [FIGMA_SITE_URL],
+  csrf: [FIGMA_SITE_URL],
   sharp,
   admin: {
     user: Users.slug,
